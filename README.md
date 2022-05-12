@@ -1,0 +1,2 @@
+# idkman
+help w errors
