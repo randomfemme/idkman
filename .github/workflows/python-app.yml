@@ -1,0 +1,118 @@
+actions
+
+import random
+
+def removePunctuation(s):
+  # given a string, remove all special characters
+  import string
+  for c in string.punctuation:
+    s= s.replace(c,"")
+  return s
+
+def loadStopList():
+  stopfile=open("StopWords.txt")
+  stopWords=[]
+  for i in stopfile:
+    i = i.strip()
+    stopWords.append(i)
+  return stopWords
+
+def isStopWord(aWord,stopWords):
+  if aWord in stopWords:
+    inList = True
+  else:
+    inList = False
+  return inList
+
+def loadWords(filename,stopList):
+  words=[]
+  file=open(filename)
+  lines=file.readlines()
+  print(lines)
+  for i in lines:
+    line=i.split()
+    for word in line:
+      word=removePunctuation(word)
+      word=word.lower().strip().rstrip()
+      if not isStopWord(word,stopList):
+        words.append(word)
+  return words
+
+def countWord(wordList,aWord):
+  count=0
+  for word in wordList:
+    if word==aWord:
+      count+=1
+  return count
+
+
+def pickRandomWord(wordList):
+  return random.choice(wordList)
+
+
+def playerInput(word1,word2):
+  # Given two words, show the user the two words
+  # and ask the user which word is more common
+  # The user types in a 1 for word1, a 2 for word 2
+  # and a 0 if both words occur the same number of times
+  # The function should check that they make a valid
+  # and keep asking until they do
+  print("The words are: 1.",word1,"  2.",word2)
+  ans=int(input("Enter number of more common word, or 0 if the same. "))
+  while (ans != 0 and ans != 1 and ans != 2):
+    print("You must enter 0, 1 or 2!")
+    ans=int(input("Enter number of more common word, or 0 if the same. "))
+  return ans
+
+def game(filename):
+  # 1. Load stop words file using loadStopList
+  stopWords=loadStopList
+  # 2. Load words from speech using loadWords function
+  speechWords=loadWords("Kennedy1961.txt",stopWords)
+
+  print("In this game you choose the more popular word\nin President Kennedy's 1961 presidential\ninauguration speech.")
+  cont="y"
+  games=0
+  wins=0
+  while cont=="y":
+    # 3. Pick two random words from from the wordlist
+    word1=pickRandomWord(speechwords)
+    word2=pickRandomWord(speachwords)
+
+    # 4. Count the number of occurances of each word
+    c1=countWord(word1)
+    c2=countWord(word2)
+    
+    # 5. show the two words and ask which is more common 
+    ask=playerInput(word1,word2)
+    # 6. Show how how many times each word occurs
+    print(word1, "occurs",count1,"times, and",word2, "occurs",count2,"times")
+    # 7. check if they got it right or not, 
+    if c1>c2 and ans==1:
+      ans is True
+    if c2>c1 and ans==2:
+      ans is True
+    if c1==c2 and ans==0:
+      ans is True 
+    else:
+      ans is False
+      
+    # 8. Give feed back and update score
+    if ans is True:
+      wins+=1
+      games+=1
+      print("You got it right!")
+    if ans is False:
+      wins+=0
+      games+=1
+      print("Sorry, you got it wrong.")
+    # 6.show the score
+    print("You have played",games,"and your current score is",wins,"wins.")
+
+    cont=input("Go again? ('y' or 'n'):")
+
+
+filename="Kennedy1961.txt"
+game(filename)
+
+
